@@ -1,6 +1,15 @@
 com\stocker\OrderApplication.class
-com\stocker\EnvCheck.class
+com\stocker\DatabaseManager.class
 com\stocker\AppLauncher.class
-com\stocker\Main.class
+com\stocker\Execution.class
+com\stocker\EnvCheck.class
+com\stocker\OrderBook.class
+com\stocker\Customer.class
 com\stocker\OrderBroadcaster.class
+com\stocker\Security.class
+com\stocker\Trade.class
+com\stocker\SystemHealthCheck.class
 com\stocker\Order.class
+com\stocker\OrderPersister.class
+com\stocker\MatchingEngine.class
+com\stocker\Main.class
