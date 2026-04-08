@@ -1,0 +1,22 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "tailwindcss";
+
+/* Global Styles for Trading UI */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #0f0620 0%, #120825 100%);
+  color: #b8a6d4;
+  line-height: 1.6;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+}

@@ -1,0 +1,100 @@
+<div class="container">
+  <!-- Header Section -->
+  <div class="header">
+    <h2 class="title">Capital Market Simulator</h2>
+    <div class="header-controls">
+      <div class="status-indicator" [class.connected]="isConnected" [class.disconnected]="!isConnected">
+        <span class="status-dot"></span>
+        <span class="status-text">{{ isConnected ? 'Connected' : 'Disconnected' }}</span>
+      </div>
+      <button class="clear-btn" (click)="clearOrders()" [disabled]="orders.length === 0">
+        Clear Orders
+      </button>
+    </div>
+  </div>
+
+  <!-- Statistics Cards -->
+  <div class="stats-container">
+    <div class="stat-card total">
+      <div class="stat-icon">📊</div>
+      <div class="stat-content">
+        <div class="stat-label">Total Orders</div>
+        <div class="stat-value">{{ orders.length }}</div>
+      </div>
+    </div>
+    <div class="stat-card buy">
+      <div class="stat-icon">📈</div>
+      <div class="stat-content">
+        <div class="stat-label">Buy Orders</div>
+        <div class="stat-value">{{ buyCount }}</div>
+      </div>
+    </div>
+    <div class="stat-card sell">
+      <div class="stat-icon">📉</div>
+      <div class="stat-content">
+        <div class="stat-label">Sell Orders</div>
+        <div class="stat-value">{{ sellCount }}</div>
+      </div>
+    </div>
+    <div class="stat-card notional">
+      <div class="stat-icon">💰</div>
+      <div class="stat-content">
+        <div class="stat-label">Total Notional</div>
+        <div class="stat-value">${{ getTotalNotional() | number:'1.2-2' }}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Orders Table -->
+  <div class="table-wrapper">
+    <table class="orders-table">
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>Symbol</th>
+          <th>Side</th>
+          <th class="text-right">Quantity</th>
+          <th class="text-right">Price</th>
+          <th class="text-right">Notional</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngIf="orders.length === 0">
+          <td colspan="6" class="empty-state">
+            <div class="empty-message">
+              <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                      d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+              </svg>
+              <p>No orders yet. Waiting for FIX messages from MiniFix...</p>
+            </div>
+          </td>
+        </tr>
+        <tr *ngFor="let order of orders; let i = index" class="order-row" [class.new-order]="i === 0">
+          <td class="order-id">
+            <span class="id-badge">{{ order.clOrdID }}</span>
+          </td>
+          <td class="symbol">
+            <span class="symbol-badge">{{ order.symbol }}</span>
+          </td>
+          <td class="side" [ngClass]="getSideColor(order.side)">
+            <span class="side-badge" [class.buy-badge]="order.side === '1'" [class.sell-badge]="order.side === '2'">
+              {{ getSideLabel(order.side) }}
+            </span>
+          </td>
+          <td class="quantity">{{ order.quantity | number:'1.0-0' }} shares</td>
+          <td class="price">${{ order.price | number:'1.2-2' }}</td>
+          <td class="notional">
+            <strong>${{ (order.quantity * order.price) | number:'1.2-2' }}</strong>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Footer Info -->
+  <div class="footer-info">
+    <p>Connected to: <code>ws://localhost:8080</code></p>
+    <p>Press any key in the Order Service terminal to shutdown</p>
+  </div>
+</div>
